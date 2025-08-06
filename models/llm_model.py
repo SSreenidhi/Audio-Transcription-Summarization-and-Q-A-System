@@ -2,7 +2,7 @@ from langchain_google_genai import GoogleGenerativeAI
 import os
 
 def load_llm_model(api_key=None, model_name="gemini-1.5-flash-latest", temperature=0.2):
-    # Set the API key - use provided key or fallback to hardcoded one
+    # Set the API key - use provided key or fallback to hardcoded on
     if api_key:
         os.environ["GOOGLE_API_KEY"] = api_key
     else:
