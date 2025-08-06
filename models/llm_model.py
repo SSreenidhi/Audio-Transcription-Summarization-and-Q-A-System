@@ -7,7 +7,7 @@ def load_llm_model(api_key=None, model_name="gemini-1.5-flash-latest", temperatu
         os.environ["GOOGLE_API_KEY"] = api_key
     else:
         # Use the provided API key
-        os.environ["GOOGLE_API_KEY"] = "AIzaSyBsHFD8YFYUurU1le_7QAfJB92Lldkr6Ms"
+        os.environ["GOOGLE_API_KEY"] = "apikey"
     
     # Create and return the model
     return GoogleGenerativeAI(model=model_name, temperature=temperature)
