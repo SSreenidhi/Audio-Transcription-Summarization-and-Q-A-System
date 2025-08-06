@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Transcribe - Audio Transcription & Q&A System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-microphone"></i> Audio Transcription</h1>
+    <p>Download YouTube videos and transcribe audio content with high accuracy</p>
+</div>
+
+<div class="main-content">
+    <!-- Audio Processing Card -->
+    <div class="card">
+        <h2><i class="fas fa-download"></i> Download & Transcribe Audio</h2>
+        
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="youtube-url" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">YouTube URL:</label>
+            <input type="url" id="youtube-url" class="form-control" placeholder="https://youtu.be/..." style="width: 100%; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; transition: border-color 0.3s ease;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="task-type" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Processing Type:</label>
+            <select id="task-type" class="form-control" style="width: 100%; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; transition: border-color 0.3s ease;">
+                <option value="translate">Translate to English</option>
+                <option value="transcribe">Transcribe (Original Language)</option>
+            </select>
+        </div>
+
+        <button id="download-btn" class="btn">
+            <i class="fas fa-download"></i> Download & Process
+        </button>
+
+        <div id="download-progress" class="progress-bar" style="display: none; width: 100%; height: 8px; background: #e1e5e9; border-radius: 4px; overflow: hidden; margin: 10px 0;">
+            <div class="progress-fill" style="height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width 0.3s ease;"></div>
+        </div>
+
+        <div id="download-status"></div>
+    </div>
+
+    <!-- Text Processing Card -->
+    <div class="card">
+        <h2><i class="fas fa-cogs"></i> Text Processing</h2>
+        
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="text-file" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Transcribed Text File:</label>
+            <input type="text" id="text-file" class="form-control" placeholder="transcribed_audio_xxx.txt" readonly style="width: 100%; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; background: #f8f9fa;">
+        </div>
+
+        <button id="process-btn" class="btn btn-secondary" disabled>
+            <i class="fas fa-cogs"></i> Process for Q&A
+        </button>
+
+        <div id="process-status"></div>
+
+        <div class="output-section" id="transcription-output" style="display: none; background: #f8f9fa; border-radius: 10px; padding: 20px; margin-top: 20px; max-height: 300px; overflow-y: auto;">
+            <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-file-text"></i> Transcription</h3>
+            <div class="output-text" id="transcription-text" style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea; font-family: 'Courier New', monospace; white-space: pre-wrap; line-height: 1.5;"></div>
+        </div>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="card">
+        <h2><i class="fas fa-arrow-right"></i> Next Steps</h2>
+        <p style="margin-bottom: 20px; color: #666;">
+            Once you've processed your audio, you can:
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-question-circle" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Ask Questions</h3>
+                <p style="color: #666; margin-bottom: 15px;">Interact with your transcribed content using AI-powered Q&A</p>
+                <a href="{{ url_for('qa') }}" class="btn btn-secondary" style="width: 100%;">
+                    <i class="fas fa-search"></i> Go to Q&A
+                </a>
+            </div>
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-file-alt" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Generate Summary</h3>
+                <p style="color: #666; margin-bottom: 15px;">Create concise summaries of your audio content</p>
+                <a href="{{ url_for('summarize') }}" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-compress-alt"></i> Generate Summary
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.status {
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.status.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.status.info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+</style>
+
+<script>
+// Global variables to store current state
+let currentAudioFile = null;
+let currentTextFile = null;
+let currentIndexFile = null;
+let currentChunksFile = null;
+
+// DOM elements
+const downloadBtn = document.getElementById('download-btn');
+const processBtn = document.getElementById('process-btn');
+const youtubeUrl = document.getElementById('youtube-url');
+const taskType = document.getElementById('task-type');
+const textFile = document.getElementById('text-file');
+
+// Status elements
+const downloadStatus = document.getElementById('download-status');
+const processStatus = document.getElementById('process-status');
+
+// Output elements
+const transcriptionOutput = document.getElementById('transcription-output');
+const transcriptionText = document.getElementById('transcription-text');
+
+// Download and process audio
+downloadBtn.addEventListener('click', async () => {
+    const url = youtubeUrl.value.trim();
+    if (!url) {
+        showStatus(downloadStatus, 'Please enter a YouTube URL', 'error');
+        return;
+    }
+
+    downloadBtn.disabled = true;
+    downloadBtn.innerHTML = '<span class="loading"></span> Downloading...';
+
+    try {
+        // Step 1: Download audio
+        showStatus(downloadStatus, 'Downloading audio from YouTube...', 'info');
+        const downloadResponse = await fetch('/api/download-audio', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: url })
+        });
+
+        const downloadData = await downloadResponse.json();
+        if (!downloadData.success) {
+            throw new Error(downloadData.error);
+        }
+
+        currentAudioFile = downloadData.audio_file;
+        showStatus(downloadStatus, `Audio downloaded: ${downloadData.video_title}`, 'success');
+
+        // Step 2: Transcribe audio
+        showStatus(downloadStatus, 'Transcribing audio...', 'info');
+        const transcribeResponse = await fetch('/api/transcribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                audio_file: currentAudioFile,
+                task: taskType.value
+            })
+        });
+
+        const transcribeData = await transcribeResponse.json();
+        if (!transcribeData.success) {
+            throw new Error(transcribeData.error);
+        }
+
+        currentTextFile = transcribeData.output_file;
+        textFile.value = currentTextFile;
+        // Store in localStorage for Q&A and Summarize pages
+        localStorage.setItem('qa_text_file', currentTextFile);
+        
+        // Show transcription
+        transcriptionText.textContent = transcribeData.transcribed_text;
+        transcriptionOutput.style.display = 'block';
+        
+        showStatus(downloadStatus, 'Transcription completed successfully!', 'success');
+        processBtn.disabled = false;
+
+    } catch (error) {
+        showStatus(downloadStatus, `Error: ${error.message}`, 'error');
+    } finally {
+        downloadBtn.disabled = false;
+        downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download & Process';
+    }
+});
+
+// Process text for Q&A
+processBtn.addEventListener('click', async () => {
+    if (!currentTextFile) {
+        showStatus(processStatus, 'No text file available', 'error');
+        return;
+    }
+
+    processBtn.disabled = true;
+    processBtn.innerHTML = '<span class="loading"></span> Processing...';
+
+    try {
+        showStatus(processStatus, 'Processing text for Q&A system...', 'info');
+        
+        const response = await fetch('/api/process-text', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text_file: currentTextFile })
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.error);
+        }
+
+        currentIndexFile = data.index_file;
+        currentChunksFile = data.chunks_file;
+        // Store in localStorage for Q&A page
+        localStorage.setItem('qa_index_file', currentIndexFile);
+        localStorage.setItem('qa_chunks_file', currentChunksFile);
+        showStatus(processStatus, `Text processed successfully! Created ${data.num_chunks} chunks.`, 'success');
+
+    } catch (error) {
+        showStatus(processStatus, `Error: ${error.message}`, 'error');
+    } finally {
+        processBtn.disabled = false;
+        processBtn.innerHTML = '<i class="fas fa-cogs"></i> Process for Q&A';
+    }
+});
+
+// Helper function to show status messages
+function showStatus(element, message, type) {
+    element.innerHTML = `<div class="status ${type}">${message}</div>`;
+}
+
+// Allow Enter key to submit YouTube URL
+youtubeUrl.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !downloadBtn.disabled) {
+        downloadBtn.click();
+    }
+});
+</script>
+{% endblock %} 

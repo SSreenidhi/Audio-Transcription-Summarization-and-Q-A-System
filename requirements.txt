@@ -1,0 +1,11 @@
+flask==2.3.3
+flask-cors==4.0.0
+faster-whisper==1.1.1
+yt-dlp==2025.7.21
+langchain==0.3.27
+langchain-core==0.3.72
+langchain-google-genai==2.1.8
+sentence-transformers==4.1.0
+faiss-cpu==1.11.0.post1
+numpy==2.0.2
+torch==2.6.0 

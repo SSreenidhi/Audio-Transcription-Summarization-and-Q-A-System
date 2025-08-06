@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block title %}About - Audio Transcription & Q&A System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-info-circle"></i> About</h1>
+    <p>Learn more about the Audio Transcription & Q&A System</p>
+</div>
+
+<div class="main-content">
+    <!-- System Overview -->
+    <div class="card">
+        <h2><i class="fas fa-star"></i> System Overview</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; color: #666; margin-bottom: 20px;">
+            The Audio Transcription & Q&A System is a powerful web application that combines cutting-edge AI technologies 
+            to transform audio content into searchable, queryable knowledge. Built with modern web technologies and 
+            advanced machine learning models, this system provides a comprehensive solution for audio content analysis.
+        </p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-microphone"></i> Audio Processing</h3>
+                <p style="color: #666;">Download and process audio from YouTube videos with high-quality transcription using advanced speech recognition.</p>
+            </div>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #f093fb;">
+                <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-brain"></i> AI-Powered Q&A</h3>
+                <p style="color: #666;">Ask intelligent questions about your content and receive context-aware answers powered by advanced language models.</p>
+            </div>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #4facfe;">
+                <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-compress-alt"></i> Smart Summarization</h3>
+                <p style="color: #666;">Generate comprehensive summaries of long audio content to quickly understand key points and insights.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Stack -->
+    <div class="card">
+        <h2><i class="fas fa-cogs"></i> Technology Stack</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-server"></i> Backend</h3>
+                <ul style="color: #666; padding-left: 20px;">
+                    <li>Flask (Python Web Framework)</li>
+                    <li>Faster Whisper (Audio Transcription)</li>
+                    <li>Sentence Transformers (Text Embeddings)</li>
+                    <li>Google Gemini (Q&A & Summarization)</li>
+                    <li>FAISS (Vector Search)</li>
+                </ul>
+            </div>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-desktop"></i> Frontend</h3>
+                <ul style="color: #666; padding-left: 20px;">
+                    <li>HTML5 & CSS3</li>
+                    <li>JavaScript (ES6+)</li>
+                    <li>Font Awesome Icons</li>
+                    <li>Responsive Design</li>
+                    <li>Modern UI/UX</li>
+                </ul>
+            </div>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-tools"></i> Tools & Libraries</h3>
+                <ul style="color: #666; padding-left: 20px;">
+                    <li>yt-dlp (YouTube Downloader)</li>
+                    <li>FFmpeg (Audio Processing)</li>
+                    <li>LangChain (Text Processing)</li>
+                    <li>NumPy (Numerical Computing)</li>
+                    <li>PyTorch (Deep Learning)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="card">
+        <h2><i class="fas fa-list"></i> Key Features</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-download"></i> Audio Download</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>YouTube video audio extraction</li>
+                    <li>Multiple audio format support</li>
+                    <li>Automatic format conversion</li>
+                    <li>High-quality audio processing</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-language"></i> Transcription</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>Multi-language support</li>
+                    <li>Translate to English option</li>
+                    <li>High accuracy speech recognition</li>
+                    <li>Real-time processing</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-search"></i> Q&A System</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>Semantic search capabilities</li>
+                    <li>Context-aware answers</li>
+                    <li>Relevant source highlighting</li>
+                    <li>Multiple question types</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-file-alt"></i> Summarization</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>AI-powered summaries</li>
+                    <li>Multiple summary types</li>
+                    <li>Key point extraction</li>
+                    <li>Customizable formats</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="card">
+        <h2><i class="fas fa-route"></i> How It Works</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 24px;">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 10px;">1. Download</h3>
+                <p style="color: #666;">Extract audio from YouTube videos using yt-dlp</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 24px;">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 10px;">2. Transcribe</h3>
+                <p style="color: #666;">Convert speech to text using Faster Whisper</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 24px;">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 10px;">3. Process</h3>
+                <p style="color: #666;">Create embeddings and searchable indexes</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 24px;">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 10px;">4. Interact</h3>
+                <p style="color: #666;">Ask questions and get intelligent answers</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Requirements -->
+    <div class="card">
+        <h2><i class="fas fa-desktop"></i> System Requirements</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-laptop"></i> Hardware</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>Minimum 4GB RAM (8GB recommended)</li>
+                    <li>2GB free disk space</li>
+                    <li>Multi-core processor</li>
+                    <li>Stable internet connection</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-code"></i> Software</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>Python 3.8 or higher</li>
+                    <li>FFmpeg installed</li>
+                    <li>Modern web browser</li>
+                    <li>Google API key (for Gemini)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy & Security -->
+    <div class="card">
+        <h2><i class="fas fa-shield-alt"></i> Privacy & Security</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-user-shield"></i> Data Privacy</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>All processing done locally</li>
+                    <li>No data sent to external servers</li>
+                    <li>Files stored on your system</li>
+                    <li>Secure API key handling</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-lock"></i> Security Features</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>Local file processing</li>
+                    <li>No data retention</li>
+                    <li>Secure API communications</li>
+                    <li>Input validation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support -->
+    <div class="card">
+        <h2><i class="fas fa-headset"></i> Support & Documentation</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-book" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Documentation</h3>
+                <p style="color: #666;">Comprehensive guides and tutorials</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-question-circle" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">FAQ</h3>
+                <p style="color: #666;">Common questions and answers</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-bug" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Troubleshooting</h3>
+                <p style="color: #666;">Solutions to common issues</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-envelope" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Contact</h3>
+                <p style="color: #666;">Get help and support</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

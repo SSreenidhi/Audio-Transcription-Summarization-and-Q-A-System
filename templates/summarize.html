@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}Summarize - Audio Transcription & Q&A System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-file-alt"></i> Content Summarization</h1>
+    <p>Generate concise, comprehensive summaries of your audio content using AI</p>
+</div>
+
+<div class="main-content">
+    <!-- Summary Generation -->
+    <div class="card">
+        <h2><i class="fas fa-compress-alt"></i> Generate Summary</h2>
+        
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="text-file" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Transcribed Text File:</label>
+            <input type="text" id="text-file" class="form-control" placeholder="transcribed_audio_xxx.txt" style="width: 100%; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; transition: border-color 0.3s ease;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="summary-type" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Summary Type:</label>
+            <select id="summary-type" class="form-control" style="width: 100%; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; transition: border-color 0.3s ease;">
+                <option value="general">General Summary</option>
+                <option value="key-points">Key Points</option>
+                <option value="detailed">Detailed Summary</option>
+                <option value="bullet-points">Bullet Points</option>
+            </select>
+        </div>
+
+        <button id="summarize-btn" class="btn btn-success">
+            <i class="fas fa-compress-alt"></i> Generate Summary
+        </button>
+
+        <div id="summary-status"></div>
+
+        <div class="output-section" id="summary-output" style="display: none; background: #f8f9fa; border-radius: 10px; padding: 20px; margin-top: 20px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-file-alt"></i> Generated Summary</h3>
+            <div class="output-text" id="summary-text" style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea; font-family: 'Segoe UI', sans-serif; white-space: pre-wrap; line-height: 1.6; color: #333;"></div>
+        </div>
+    </div>
+
+    <!-- Summary Types Explanation -->
+    <div class="card">
+        <h2><i class="fas fa-info-circle"></i> Summary Types</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-file-text"></i> General Summary</h3>
+                <p style="color: #666; margin-bottom: 10px;">A comprehensive overview of the entire content, covering main themes and important details.</p>
+                <ul style="color: #666; font-size: 14px; padding-left: 20px;">
+                    <li>Complete overview</li>
+                    <li>Main themes</li>
+                    <li>Important details</li>
+                </ul>
+            </div>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #f093fb;">
+                <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-list"></i> Key Points</h3>
+                <p style="color: #666; margin-bottom: 10px;">Extract the most important points and insights from the content.</p>
+                <ul style="color: #666; font-size: 14px; padding-left: 20px;">
+                    <li>Main insights</li>
+                    <li>Critical information</li>
+                    <li>Essential takeaways</li>
+                </ul>
+            </div>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #4facfe;">
+                <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-search"></i> Detailed Summary</h3>
+                <p style="color: #666; margin-bottom: 10px;">A thorough analysis with in-depth coverage of all major topics.</p>
+                <ul style="color: #666; font-size: 14px; padding-left: 20px;">
+                    <li>In-depth analysis</li>
+                    <li>All major topics</li>
+                    <li>Comprehensive coverage</li>
+                </ul>
+            </div>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #00f2fe;">
+                <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-dot-circle"></i> Bullet Points</h3>
+                <p style="color: #666; margin-bottom: 10px;">Organized list of key information in easy-to-scan format.</p>
+                <ul style="color: #666; font-size: 14px; padding-left: 20px;">
+                    <li>Easy to scan</li>
+                    <li>Organized format</li>
+                    <li>Quick reference</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips for Better Summaries -->
+    <div class="card">
+        <h2><i class="fas fa-lightbulb"></i> Tips for Better Summaries</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-check-circle"></i> Best Practices</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>Use clear, transcribed text for best results</li>
+                    <li>Choose the appropriate summary type for your needs</li>
+                    <li>Review and refine the generated summary if needed</li>
+                    <li>Use summaries for quick content review</li>
+                    <li>Combine with Q&A for deeper understanding</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-cogs"></i> How It Works</h3>
+                <ul style="color: #666; padding-left: 20px; line-height: 1.6;">
+                    <li>AI analyzes the entire transcribed content</li>
+                    <li>Identifies key themes and important information</li>
+                    <li>Generates contextually relevant summaries</li>
+                    <li>Maintains accuracy and coherence</li>
+                    <li>Adapts format based on selected type</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Use Cases -->
+    <div class="card">
+        <h2><i class="fas fa-users"></i> Use Cases</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-graduation-cap" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Education</h3>
+                <p style="color: #666;">Summarize lectures, presentations, and educational content for study purposes.</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-briefcase" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Business</h3>
+                <p style="color: #666;">Create executive summaries of meetings, presentations, and business content.</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-newspaper" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Research</h3>
+                <p style="color: #666;">Summarize research interviews, podcasts, and academic content.</p>
+            </div>
+            <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <i class="fas fa-book" style="font-size: 2rem; color: #667eea; margin-bottom: 15px;"></i>
+                <h3 style="color: #667eea; margin-bottom: 10px;">Content Creation</h3>
+                <p style="color: #666;">Generate summaries for articles, blog posts, and social media content.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.status {
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.status.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.status.info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+</style>
+
+<script>
+// DOM elements
+const summarizeBtn = document.getElementById('summarize-btn');
+const textFile = document.getElementById('text-file');
+const summaryType = document.getElementById('summary-type');
+
+// Status elements
+const summaryStatus = document.getElementById('summary-status');
+
+// Output elements
+const summaryOutput = document.getElementById('summary-output');
+const summaryText = document.getElementById('summary-text');
+
+// Generate summary
+summarizeBtn.addEventListener('click', async () => {
+    const textFileValue = textFile.value.trim();
+    if (!textFileValue) {
+        showStatus(summaryStatus, 'Please enter a text file name', 'error');
+        return;
+    }
+
+    summarizeBtn.disabled = true;
+    summarizeBtn.innerHTML = '<span class="loading"></span> Summarizing...';
+
+    try {
+        showStatus(summaryStatus, 'Generating summary...', 'info');
+        
+        const response = await fetch('/api/summarize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                text_file: textFileValue,
+                summary_type: summaryType.value
+            })
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.error);
+        }
+
+        // Display summary
+        summaryText.textContent = data.summary;
+        summaryOutput.style.display = 'block';
+        
+        showStatus(summaryStatus, 'Summary generated successfully!', 'success');
+
+    } catch (error) {
+        showStatus(summaryStatus, `Error: ${error.message}`, 'error');
+    } finally {
+        summarizeBtn.disabled = false;
+        summarizeBtn.innerHTML = '<i class="fas fa-compress-alt"></i> Generate Summary';
+    }
+});
+
+// On page load, auto-fill the text file input from localStorage if available
+window.addEventListener('DOMContentLoaded', () => {
+    const storedTextFile = localStorage.getItem('qa_text_file');
+    const textFileInput = document.getElementById('text-file');
+    if (storedTextFile && textFileInput) {
+        textFileInput.value = storedTextFile;
+    }
+});
+
+// Helper function to show status messages
+function showStatus(element, message, type) {
+    element.innerHTML = `<div class="status ${type}">${message}</div>`;
+}
+
+// Allow Enter key to submit
+textFile.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !summarizeBtn.disabled) {
+        summarizeBtn.click();
+    }
+});
+</script>
+{% endblock %} 

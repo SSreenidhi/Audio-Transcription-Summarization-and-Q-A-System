@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+
+{% block title %}Q&A - Audio Transcription & Q&A System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-question-circle"></i> Question & Answer</h1>
+    <p>Ask intelligent questions about your transcribed content and get AI-powered answers</p>
+</div>
+
+<div class="main-content">
+    <!-- Q&A Section -->
+    <div class="card">
+        <h2><i class="fas fa-search"></i> Ask Questions</h2>
+        
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="question" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Ask a question about the transcribed content:</label>
+            <div class="question-input" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                <input type="text" id="question" class="form-control" placeholder="What are the main points discussed in the video?" style="flex: 1; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; transition: border-color 0.3s ease;">
+                <button id="ask-btn" class="btn btn-success" disabled>
+                    <i class="fas fa-search"></i> Ask Question
+                </button>
+            </div>
+        </div>
+
+        <div id="qa-status"></div>
+
+        <div id="answer-box" class="answer-box" style="display: none; background: white; border-radius: 10px; padding: 20px; margin-top: 20px; border-left: 4px solid #4facfe;">
+            <h3 style="color: #667eea; margin-bottom: 15px;"><i class="fas fa-lightbulb"></i> Answer</h3>
+            <div id="answer-text" style="line-height: 1.6; color: #333;"></div>
+            
+            <div class="chunks-box" style="background: #f8f9fa; border-radius: 8px; padding: 15px; margin-top: 15px;">
+                <h4 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-list"></i> Relevant Context</h4>
+                <div id="chunks-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Upload Section -->
+    <div class="card">
+        <h2><i class="fas fa-upload"></i> Load Processed Files</h2>
+        <p style="margin-bottom: 20px; color: #666;">
+            If you have already processed text files, you can load them here to ask questions:
+        </p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div class="form-group">
+                <label for="index-file" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Index File:</label>
+                <input type="text" id="index-file" class="form-control" placeholder="faiss_index_xxx.idx" style="width: 100%; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; background: #f8f9fa;">
+            </div>
+            <div class="form-group">
+                <label for="chunks-file" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">Chunks File:</label>
+                <input type="text" id="chunks-file" class="form-control" placeholder="chunks_xxx.pkl" style="width: 100%; padding: 12px 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; background: #f8f9fa;">
+            </div>
+        </div>
+        
+        <button id="load-files-btn" class="btn btn-secondary" style="margin-top: 15px;">
+            <i class="fas fa-folder-open"></i> Load Files
+        </button>
+        
+        <div id="load-status"></div>
+    </div>
+
+    <!-- Example Questions -->
+    <div class="card">
+        <h2><i class="fas fa-lightbulb"></i> Example Questions</h2>
+        <p style="margin-bottom: 20px; color: #666;">
+            Here are some example questions you can ask about your content:
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            <div class="example-question" style="background: #f8f9fa; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border-left: 3px solid #667eea;">
+                <p style="margin: 0; color: #333; font-weight: 500;">What are the main topics discussed?</p>
+            </div>
+            <div class="example-question" style="background: #f8f9fa; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border-left: 3px solid #667eea;">
+                <p style="margin: 0; color: #333; font-weight: 500;">Can you summarize the key points?</p>
+            </div>
+            <div class="example-question" style="background: #f8f9fa; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border-left: 3px solid #667eea;">
+                <p style="margin: 0; color: #333; font-weight: 500;">What solutions were proposed?</p>
+            </div>
+            <div class="example-question" style="background: #f8f9fa; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border-left: 3px solid #667eea;">
+                <p style="margin: 0; color: #333; font-weight: 500;">What are the main challenges mentioned?</p>
+            </div>
+            <div class="example-question" style="background: #f8f9fa; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border-left: 3px solid #667eea;">
+                <p style="margin: 0; color: #333; font-weight: 500;">What statistics or data were shared?</p>
+            </div>
+            <div class="example-question" style="background: #f8f9fa; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border-left: 3px solid #667eea;">
+                <p style="margin: 0; color: #333; font-weight: 500;">What recommendations were made?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips -->
+    <div class="card">
+        <h2><i class="fas fa-tips"></i> Tips for Better Questions</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div>
+                <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-check-circle"></i> Do</h3>
+                <ul style="color: #666; padding-left: 20px;">
+                    <li>Ask specific questions</li>
+                    <li>Use clear, simple language</li>
+                    <li>Ask about main themes and topics</li>
+                    <li>Request summaries and key points</li>
+                    <li>Ask for examples or explanations</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #f5576c; margin-bottom: 10px;"><i class="fas fa-times-circle"></i> Don't</h3>
+                <ul style="color: #666; padding-left: 20px;">
+                    <li>Ask overly complex questions</li>
+                    <li>Request information not in the content</li>
+                    <li>Ask for personal opinions</li>
+                    <li>Request real-time information</li>
+                    <li>Ask for predictions or future events</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.status {
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.status.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.status.info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.chunk-item {
+    background: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border-left: 3px solid #667eea;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.example-question:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .question-input {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+// Global variables to store current state
+let currentIndexFile = null;
+let currentChunksFile = null;
+
+// Try to load from localStorage on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const storedIndex = localStorage.getItem('qa_index_file');
+    const storedChunks = localStorage.getItem('qa_chunks_file');
+    if (storedIndex && storedChunks) {
+        currentIndexFile = storedIndex;
+        currentChunksFile = storedChunks;
+        // If you have file input fields, you can pre-fill them here if needed
+        const indexFileInput = document.getElementById('index-file');
+        const chunksFileInput = document.getElementById('chunks-file');
+        if (indexFileInput) indexFileInput.value = storedIndex;
+        if (chunksFileInput) chunksFileInput.value = storedChunks;
+        // Enable ask button
+        const askBtn = document.getElementById('ask-btn');
+        if (askBtn) askBtn.disabled = false;
+    }
+});
+
+// DOM elements
+const askBtn = document.getElementById('ask-btn');
+const loadFilesBtn = document.getElementById('load-files-btn');
+const question = document.getElementById('question');
+const indexFile = document.getElementById('index-file');
+const chunksFile = document.getElementById('chunks-file');
+
+// Status elements
+const qaStatus = document.getElementById('qa-status');
+const loadStatus = document.getElementById('load-status');
+
+// Output elements
+const answerBox = document.getElementById('answer-box');
+const answerText = document.getElementById('answer-text');
+const chunksList = document.getElementById('chunks-list');
+
+// Example questions
+document.querySelectorAll('.example-question').forEach(element => {
+    element.addEventListener('click', () => {
+        const questionText = element.querySelector('p').textContent;
+        question.value = questionText;
+        if (!askBtn.disabled) {
+            askBtn.click();
+        }
+    });
+});
+
+// Load files
+loadFilesBtn.addEventListener('click', () => {
+    const indexFileValue = indexFile.value.trim();
+    const chunksFileValue = chunksFile.value.trim();
+    
+    if (!indexFileValue || !chunksFileValue) {
+        showStatus(loadStatus, 'Please enter both index and chunks file names', 'error');
+        return;
+    }
+    
+    currentIndexFile = indexFileValue;
+    currentChunksFile = chunksFileValue;
+    
+    showStatus(loadStatus, 'Files loaded successfully! You can now ask questions.', 'success');
+    askBtn.disabled = false;
+});
+
+// Ask question
+askBtn.addEventListener('click', async () => {
+    const questionText = question.value.trim();
+    if (!questionText) {
+        showStatus(qaStatus, 'Please enter a question', 'error');
+        return;
+    }
+
+    if (!currentIndexFile || !currentChunksFile) {
+        showStatus(qaStatus, 'Please load processed files first', 'error');
+        return;
+    }
+
+    askBtn.disabled = true;
+    askBtn.innerHTML = '<span class="loading"></span> Thinking...';
+
+    try {
+        showStatus(qaStatus, 'Searching for relevant information...', 'info');
+        
+        const response = await fetch('/api/ask-question', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                question: questionText,
+                index_file: currentIndexFile,
+                chunks_file: currentChunksFile
+            })
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.error);
+        }
+
+        // Display answer
+        answerText.textContent = data.answer;
+        answerBox.style.display = 'block';
+
+        // Display relevant chunks
+        chunksList.innerHTML = '';
+        data.relevant_chunks.forEach((chunk, index) => {
+            const chunkDiv = document.createElement('div');
+            chunkDiv.className = 'chunk-item';
+            chunkDiv.textContent = `Chunk ${index + 1}: ${chunk}`;
+            chunksList.appendChild(chunkDiv);
+        });
+
+        showStatus(qaStatus, 'Question answered successfully!', 'success');
+
+    } catch (error) {
+        showStatus(qaStatus, `Error: ${error.message}`, 'error');
+    } finally {
+        askBtn.disabled = false;
+        askBtn.innerHTML = '<i class="fas fa-search"></i> Ask Question';
+    }
+});
+
+// Helper function to show status messages
+function showStatus(element, message, type) {
+    element.innerHTML = `<div class="status ${type}">${message}</div>`;
+}
+
+// Allow Enter key to submit questions
+question.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !askBtn.disabled) {
+        askBtn.click();
+    }
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Audio Transcription & Q&A System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-microphone"></i> Audio Transcription & Q&A System</h1>
+    <p>Transform audio content into searchable, queryable knowledge using advanced AI</p>
+</div>
+
+<div class="main-content">
+    <!-- Welcome Section -->
+    <div class="card">
+        <h2><i class="fas fa-star"></i> Welcome to Your AI-Powered Audio Assistant</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; color: #666;">
+            This powerful system combines cutting-edge AI technologies to help you extract, understand, and interact with audio content. 
+            From YouTube videos to audio files, transform spoken words into actionable insights.
+        </p>
+    </div>
+
+    <!-- Features Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 30px;">
+        <!-- Transcription Feature -->
+        <div class="card">
+            <h2><i class="fas fa-microphone"></i> Audio Transcription</h2>
+            <p>Download YouTube videos and transcribe audio content with high accuracy using advanced speech recognition.</p>
+            <ul style="margin: 15px 0; padding-left: 20px; color: #666;">
+                <li>Multi-language support</li>
+                <li>Translate to English</li>
+                <li>High accuracy transcription</li>
+                <li>Real-time processing</li>
+            </ul>
+            <a href="{{ url_for('transcribe') }}" class="btn">
+                <i class="fas fa-play"></i> Start Transcribing
+            </a>
+        </div>
+
+        <!-- Q&A Feature -->
+        <div class="card">
+            <h2><i class="fas fa-question-circle"></i> Intelligent Q&A</h2>
+            <p>Ask questions about your transcribed content and get intelligent, context-aware answers powered by AI.</p>
+            <ul style="margin: 15px 0; padding-left: 20px; color: #666;">
+                <li>Semantic search</li>
+                <li>Context-aware answers</li>
+                <li>Multiple question types</li>
+                <li>Relevant source highlighting</li>
+            </ul>
+            <a href="{{ url_for('qa') }}" class="btn btn-secondary">
+                <i class="fas fa-search"></i> Ask Questions
+            </a>
+        </div>
+
+        <!-- Summarization Feature -->
+        <div class="card">
+            <h2><i class="fas fa-file-alt"></i> Content Summarization</h2>
+            <p>Generate concise, comprehensive summaries of long audio content to quickly understand key points.</p>
+            <ul style="margin: 15px 0; padding-left: 20px; color: #666;">
+                <li>AI-powered summaries</li>
+                <li>Key point extraction</li>
+                <li>Customizable length</li>
+                <li>Multiple formats</li>
+            </ul>
+            <a href="{{ url_for('summarize') }}" class="btn btn-success">
+                <i class="fas fa-compress-alt"></i> Generate Summary
+            </a>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="card">
+        <h2><i class="fas fa-cogs"></i> How It Works</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 24px;">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 10px;">1. Download Audio</h3>
+                <p style="color: #666;">Paste a YouTube URL and download the audio content</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 24px;">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 10px;">2. Transcribe</h3>
+                <p style="color: #666;">Convert speech to text using advanced AI models</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 24px;">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 10px;">3. Process</h3>
+                <p style="color: #666;">Create searchable embeddings and indexes</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 24px;">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 10px;">4. Interact</h3>
+                <p style="color: #666;">Ask questions and get intelligent answers</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="card">
+        <h2><i class="fas fa-rocket"></i> Quick Start</h2>
+        <p style="margin-bottom: 20px; color: #666;">
+            Ready to get started? Follow these simple steps to begin using the system:
+        </p>
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea;">
+            <ol style="margin: 0; padding-left: 20px; color: #333;">
+                <li style="margin-bottom: 10px;"><strong>Go to Transcribe:</strong> Click the "Start Transcribing" button above or use the navigation menu</li>
+                <li style="margin-bottom: 10px;"><strong>Enter YouTube URL:</strong> Paste a YouTube video URL you want to process</li>
+                <li style="margin-bottom: 10px;"><strong>Choose Processing Type:</strong> Select whether to transcribe in original language or translate to English</li>
+                <li style="margin-bottom: 10px;"><strong>Download & Process:</strong> Click the button and wait for processing to complete</li>
+                <li style="margin-bottom: 10px;"><strong>Ask Questions:</strong> Once processed, use the Q&A feature to interact with your content</li>
+            </ol>
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{{ url_for('transcribe') }}" class="btn" style="font-size: 18px; padding: 15px 30px;">
+                <i class="fas fa-play"></i> Get Started Now
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 
