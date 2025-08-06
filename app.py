@@ -1,3 +1,4 @@
+
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
@@ -53,7 +54,7 @@ def initialize_models():
     embedding_model = SentenceTransformer('all-mpnet-base-v2')
     
     print("Initializing Gemini model...")
-    os.environ["GOOGLE_API_KEY"] = "AIzaSyBpuhtBJgntwTSCIZtudDanWr8pRvBSSCI"
+    os.environ["GOOGLE_API_KEY"] = "apikey"
     llm = GoogleGenerativeAI(model="gemini-1.5-flash-latest", temperature=0.2)
     
     print("All models loaded successfully!")
